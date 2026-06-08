@@ -1,16 +1,32 @@
-# Daisy & Skills — Shipped Log
+# Daisy — Shipped & Incidents
 
-Sister to the Daisy incident log. The incident log tracks what *broke*; this tracks what *shipped*.
+Two-tab static page (GitHub Pages, noindex/link-only):
+- **Shipped** — features & skills we've built (`feature_log.tsv`)
+- **Incidents** — the defect log (`incident_log.tsv`)
 
-Live page (noindex, link-only): see repo Pages URL.
+Columns are touch-resizable and saved per-device (localStorage).
 
-## How to update
-1. Edit `feature_log.tsv` — add a row (tab-separated). Columns:
+## Shipped tab — manual update
+1. Edit `feature_log.tsv` (tab-separated):
    `date  name  surface  status  what  why  location  approx`
-   - **surface:** `daisy` · `skill` · `infra` (infra hidden in default view, shown by the "Everything" toggle)
-   - **status:** `Live` · `Retired` · `Experimental` · `In progress`
-   - **approx:** `1` if the date is an estimate, else `0`
-2. Run `python3 build.py` (regenerates `index.html`).
-3. `git commit -am "log: <feature>" && git push` — Pages updates in ~1 min.
+   - surface: `daisy` · `skill` · `infra` (infra hidden until the "Everything" toggle)
+   - status: `Live` · `Retired` · `Experimental` · `In progress` · approx: `1` if date is a guess
+2. `python3 build.py` → `git commit -am "…" && git push`
 
-`seed.py` was the one-time backfill from MEMORY.md and isn't needed again.
+## Incidents tab — auto-synced from the Mini
+The canonical defect log lives on the Mini at `~/daisy/logs/incident_log.tsv` (watchdog
+auto-appends). A LaunchAgent republishes this page **whenever that file changes**:
+
+- **Mini repo clone:** `~/daisy-changelog` (pushes via a write-scoped deploy key,
+  `~/.ssh/daisy_changelog_deploy`, registered to this repo only)
+- **Sync script:** `~/daisy/bin/changelog_sync.sh` — fetch+reset to origin, copy the live
+  TSV in, rebuild, commit, push (with one retry on a rejected push)
+- **Trigger:** `~/Library/LaunchAgents/com.daisy.changelogsync.plist`
+  (`WatchPaths` on the incident log + hourly fallback + RunAtLoad)
+- **Logs:** `~/daisy/logs/changelog_sync.log`
+
+So: log/fix a defect → the row hits `incident_log.tsv` → page updates within seconds.
+No action needed.
+
+> Note: the Mini pushes commits too. On the MacBook, `git pull` before editing
+> `feature_log.tsv` to avoid a non-fast-forward.
