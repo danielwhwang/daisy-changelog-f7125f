@@ -8,137 +8,122 @@
 <style>
   :root {
     --bg:#0f1115; --card:#171a21; --line:#262b36; --text:#e7eaf0; --muted:#9aa3b2;
-    --accent:#7aa2f7; --daisy:#8b5cf6; --skill:#10b981; --infra:#64748b;
-    --live:#10b981; --retired:#ef4444; --exp:#f59e0b; --prog:#3b82f6;
+    --accent:#7aa2f7;
   }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--text);
-    font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
-  .wrap { max-width:860px; margin:0 auto; padding:24px 16px 80px; }
-  header h1 { font-size:22px; margin:0 0 4px; }
-  header p { color:var(--muted); margin:0 0 20px; font-size:14px; }
-  .controls { position:sticky; top:0; background:var(--bg); padding:12px 0;
-    border-bottom:1px solid var(--line); z-index:5; }
+    font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+  .wrap { max-width:1100px; margin:0 auto; padding:16px 12px 60px; }
+  h1 { font-size:19px; margin:0 0 2px; }
+  .sub { color:var(--muted); margin:0 0 14px; font-size:13px; }
+  .controls { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:10px; }
   .seg { display:inline-flex; background:var(--card); border:1px solid var(--line);
-    border-radius:10px; padding:3px; gap:2px; }
+    border-radius:9px; padding:3px; gap:2px; }
   .seg button { background:transparent; color:var(--muted); border:0; cursor:pointer;
-    padding:7px 14px; border-radius:8px; font-size:13px; font-weight:600; }
+    padding:6px 12px; border-radius:7px; font-size:12.5px; font-weight:600; }
   .seg button.on { background:var(--accent); color:#0b1020; }
-  .row2 { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; align-items:center; }
   select, input[type=search] { background:var(--card); color:var(--text);
-    border:1px solid var(--line); border-radius:8px; padding:7px 10px; font-size:13px; }
-  input[type=search] { flex:1; min-width:140px; }
-  .count { color:var(--muted); font-size:12px; margin:14px 2px 6px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:12px;
-    padding:14px 16px; margin-bottom:10px; }
-  .top { display:flex; justify-content:space-between; gap:10px; align-items:baseline; flex-wrap:wrap; }
-  .name { font-weight:700; font-size:16px; }
-  .date { color:var(--muted); font-size:12px; white-space:nowrap; }
-  .date .approx { opacity:.6; }
-  .badges { margin:8px 0 6px; display:flex; gap:6px; flex-wrap:wrap; }
-  .badge { font-size:11px; font-weight:700; padding:2px 8px; border-radius:999px;
-    text-transform:uppercase; letter-spacing:.03em; }
-  .b-daisy { background:rgba(139,92,246,.15); color:#c4b5fd; }
-  .b-skill { background:rgba(16,185,129,.15); color:#6ee7b7; }
-  .b-infra { background:rgba(100,116,139,.18); color:#cbd5e1; }
-  .s-Live { background:rgba(16,185,129,.15); color:#6ee7b7; }
-  .s-Retired { background:rgba(239,68,68,.15); color:#fca5a5; }
-  .s-Experimental { background:rgba(245,158,11,.15); color:#fcd34d; }
-  .s-In-progress { background:rgba(59,130,246,.15); color:#93c5fd; }
-  .what { margin:2px 0; }
-  .why { color:var(--muted); font-size:13.5px; margin:4px 0 0; }
-  .why b { color:#bcc4d2; font-weight:600; }
-  .loc { font:12px ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--muted);
-    margin-top:8px; word-break:break-all; }
-  .empty { color:var(--muted); text-align:center; padding:40px; }
-  footer { color:var(--muted); font-size:12px; margin-top:30px; text-align:center; }
+    border:1px solid var(--line); border-radius:8px; padding:6px 9px; font-size:12.5px; }
+  input[type=search] { flex:1; min-width:130px; }
+  .count { color:var(--muted); font-size:12px; margin:2px 2px 8px; }
+  .scroll { overflow-x:auto; border:1px solid var(--line); border-radius:10px;
+    -webkit-overflow-scrolling:touch; }
+  table { border-collapse:collapse; width:max-content; min-width:100%; font-size:12.5px; }
+  thead th { position:sticky; top:0; background:#1c2029; color:var(--muted);
+    text-align:left; font-weight:600; padding:8px 12px; border-bottom:1px solid var(--line);
+    white-space:nowrap; }
+  td { padding:8px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  tbody tr:hover { background:#1b1f28; }
+  .c-date { white-space:nowrap; color:var(--muted); font-variant-numeric:tabular-nums; }
+  .c-date .ap { opacity:.55; }
+  .c-name { font-weight:700; min-width:140px; max-width:200px; }
+  .clamp { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+    overflow:hidden; }
+  .c-what { min-width:260px; max-width:340px; }
+  .c-why { min-width:240px; max-width:320px; color:var(--muted); }
+  .badge { font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:999px;
+    text-transform:uppercase; letter-spacing:.03em; white-space:nowrap; }
+  .b-daisy { background:rgba(139,92,246,.16); color:#c4b5fd; }
+  .b-skill { background:rgba(16,185,129,.16); color:#6ee7b7; }
+  .b-infra { background:rgba(100,116,139,.20); color:#cbd5e1; }
+  .s-Live { background:rgba(16,185,129,.16); color:#6ee7b7; }
+  .s-Retired { background:rgba(239,68,68,.16); color:#fca5a5; }
+  .s-Experimental { background:rgba(245,158,11,.16); color:#fcd34d; }
+  .s-In-progress { background:rgba(59,130,246,.16); color:#93c5fd; }
+  .empty { color:var(--muted); text-align:center; padding:30px; }
+  footer { color:var(--muted); font-size:11.5px; margin-top:16px; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <h1>Daisy &amp; Skills — Shipped Log</h1>
-    <p>What we've built. Sister to the incident log: that one tracks what broke, this tracks what shipped.</p>
-  </header>
+  <h1>Daisy &amp; Skills — Shipped Log</h1>
+  <p class="sub">What we've built. Sister to the incident log. Scroll the table sideways for full detail.</p>
 
   <div class="controls">
     <div class="seg" id="mode">
       <button data-mode="default" class="on">Daisy + skills</button>
       <button data-mode="all">Everything</button>
     </div>
-    <div class="row2">
-      <select id="surface">
-        <option value="">All types</option>
-        <option value="daisy">Daisy</option>
-        <option value="skill">Skill</option>
-        <option value="infra">Infra / fixes</option>
-      </select>
-      <select id="status">
-        <option value="">Any status</option>
-        <option>Live</option>
-        <option>Retired</option>
-        <option>Experimental</option>
-        <option>In progress</option>
-      </select>
-      <input type="search" id="q" placeholder="Search name, what, why…">
-    </div>
+    <select id="status">
+      <option value="">Any status</option>
+      <option>Live</option><option>Retired</option>
+      <option>Experimental</option><option>In progress</option>
+    </select>
+    <input type="search" id="q" placeholder="Search…">
   </div>
 
   <div class="count" id="count"></div>
-  <div id="list"></div>
 
-  <footer>Backfilled from build history · edit <code>feature_log.tsv</code> + run <code>build.py</code> to update</footer>
+  <div class="scroll">
+    <table>
+      <thead><tr>
+        <th>Date</th><th>Feature</th><th>What it does</th><th>Why</th><th>Surface</th><th>Status</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+  <footer>Edit <code>feature_log.tsv</code> + run <code>build.py</code> to update.</footer>
 </div>
 
 <script>
-const DATA = [{"date": "2026-06-06", "name": "Incident log + outbound canary", "surface": "daisy", "status": "Live", "what": "Chronological outage tracker (incident_log.tsv); watchdog auto-appends; path-5 canary catches silent outbound drops.", "why": "Stop guessing at Daisy reliability; structural check caught a 3.5h silent outage.", "location": "~/daisy/logs/incident_log.tsv", "approx": false}, {"date": "2026-06-05", "name": "Weekly Preview (v2)", "surface": "daisy", "status": "Live", "what": "Sun review->preview + Fri 3pm capture; pulls work meetings from a 'Work busy' calendar mirror for capacity math.", "why": "Forward-looking week setup; v2 made it staffing/capacity aware.", "location": "project_weekly_preview", "approx": false}, {"date": "2026-06-04", "name": "Oura Ring integration", "surface": "daisy", "status": "Live", "what": "Daily sleep/recovery puller feeds the morning briefing (LAST NIGHT line) + monthly review trend.", "why": "Recovery context in the briefing; 2 config tweaks deferred for approval.", "location": "project_oura_integration", "approx": false}, {"date": "2026-06-04", "name": "On Your Radar", "surface": "daisy", "status": "Retired", "what": "Blind-spot job; folded into the weekly preview's 'on your radar' section.", "why": "Retired to avoid duplicate signal once the weekly preview covered it.", "location": "project_on_your_radar", "approx": false}, {"date": "2026-06-04", "name": "X5 touch-up paint page deploy", "surface": "infra", "status": "Live", "what": "Noindex link-only touch-up paint checklist.", "why": "Quick reference doc deploy.", "location": "danielwhwang.github.io/x5-2e8030", "approx": false}, {"date": "2026-06-03", "name": "Monthly review", "surface": "daisy", "status": "Experimental", "what": "Designed not built; trigger phrase 'build the monthly review'; pattern/trajectory complement to the weekly.", "why": "Forest-vs-trees companion to the weekly review.", "location": "project_monthly_review", "approx": false}, {"date": "2026-06-03", "name": "/counsel skill", "surface": "skill", "status": "Live", "what": "Mentor / Chief-of-Staff mode: questions + due diligence before recommendations.", "why": "A thinking-partner mode for live decisions and hard conversations.", "location": "project_counsel_skill", "approx": false}, {"date": "2026-06-02", "name": "/recon skill", "surface": "skill", "status": "Live", "what": "Chief-of-Staff look-back over 30d of Claude sessions (local + Mini); verifies flags vs Todoist/Calendar/Gmail.", "why": "Backward-looking complement to On Your Radar; catch dropped loops.", "location": "project_recon_skill", "approx": false}, {"date": "2026-06-02", "name": "Date-staleness fix", "surface": "infra", "status": "Live", "what": "Briefing/Big-Three prompts now stamp the real date after overnight restarts.", "why": "Daisy's 'today' was going stale after restart.", "location": "project_daisy_date_staleness", "approx": true}, {"date": "2026-06-01", "name": "Conversation-aware reviews", "surface": "daisy", "status": "Live", "what": "Weekly (Sun 10:30) + monthly (last-Sun 09:30) read the session corpus + tasks -> styled HTML to Drive + Telegram.", "why": "Reviews that reflect what actually happened, not just task lists.", "location": "project_conversation_aware_reviews", "approx": false}, {"date": "2026-06-01", "name": "Zombie-poller fix", "surface": "infra", "status": "Live", "what": "restart_daisy.sh pkill sweep + watchdog dup-detection for runaway duplicate bun pollers (409 token fight).", "why": "Fixed deaf-on-Telegram outages from duplicate listeners.", "location": "project_daisy_zombie_poller", "approx": false}, {"date": "2026-05-30", "name": "Comms search + inbound sweep", "surface": "daisy", "status": "Live", "what": "daisy-msg-search (iMessage/SMS) + daisy-gmail-search + 7:05am com.daisy.inbound LaunchAgent Telegram sweep.", "why": "Consolidate incoming across channels so nothing slips between apps.", "location": "project_comms_search", "approx": false}, {"date": "2026-05-30", "name": "/inbound skill", "surface": "skill", "status": "Live", "what": "Cross-channel incoming sweep: name-resolved, triaged iMessage/SMS + email in one view.", "why": "One consolidated 'what came in' instead of app-by-app checking.", "location": "project_comms_search", "approx": false}, {"date": "2026-05-30", "name": "Daisy working memory + Drive backup", "surface": "infra", "status": "Live", "what": "Local auto-loaded memory (!= Open Brain) + Drive output folder + nightly Drive backup of ~/daisy.", "why": "Persistent local context + offsite backup of Daisy's brain.", "location": "project_daisy_working_memory", "approx": true}, {"date": "2026-05-28", "name": "Award flight watcher (Phase 1)", "surface": "daisy", "status": "Live", "what": "seats.aero -> bookable-only (UR/MR) filter -> Daisy Telegram, twice daily.", "why": "Catch redeemable business-class award space without manual checking.", "location": "~/daisy/award_flight_watch.*", "approx": true}, {"date": "2026-05-27", "name": "Daisy -> Mac Mini migration", "surface": "infra", "status": "In progress", "what": "Phase 0 checklist; moving Daisy off the MacBook (now cold backup) onto the always-on Mini.", "why": "Always-on host; stop the MacBook display-crash risk to Daisy uptime.", "location": "project_daisy_mini_migration", "approx": false}, {"date": "2026-05-27", "name": "Mini Day-1 checklist page deploy", "surface": "infra", "status": "Live", "what": "Static setup checklist for the Mac Mini migration.", "why": "Track the migration steps from the phone.", "location": "danielwhwang.github.io/mini-1d7ab3", "approx": false}, {"date": "2026-05-25", "name": "Telegram plugin monitor", "surface": "infra", "status": "Live", "what": "Auto-detect + auto-restart when the Telegram MCP plugin goes offline (every 5 min).", "why": "Self-heal the most common Daisy outage class.", "location": "project_daisy_telegram_monitor", "approx": true}, {"date": "2026-05-25", "name": "GitHub Pages hosting", "surface": "infra", "status": "Live", "what": "Deploy noindex, link-only static HTML to GitHub Pages for shareable, phone-viewable links.", "why": "Stable URLs for docs/checklists viewable on the phone.", "location": "reference_github_pages", "approx": false}, {"date": "2026-05-25", "name": "London trip page deploy", "surface": "infra", "status": "Live", "what": "Interactive HTML itinerary (History/Food toggle) for the Sep 2026 parents trip.", "why": "Shareable, phone-friendly trip plan.", "location": "danielwhwang.github.io/ldn-894f6b", "approx": false}, {"date": "2026-05-24", "name": "Wednesday prep reminder", "surface": "daisy", "status": "Live", "what": "Tue 8pm nudge about packed Wed mornings (huddle + gym) with bedtime/wake math.", "why": "Protect against a rushed Wednesday morning.", "location": "project_wednesday_prep", "approx": true}, {"date": "2026-05-22", "name": "Claude usage tracker", "surface": "daisy", "status": "Live", "what": "Thursday ccusage -> Telegram summary of Claude Max usage.", "why": "Settled the keep-vs-downgrade $100 Max question (uses ~3.6x value).", "location": "project_claude_usage_tracker", "approx": true}, {"date": "2026-05-21", "name": "GroupMe host-announcement check", "surface": "daisy", "status": "Live", "what": "API-backed weekly host-post detector; Sat 3pm Telegram nudge + Sun briefing escalation.", "why": "Make sure a community-group host is confirmed before Sunday.", "location": "project_groupme_host_check", "approx": true}, {"date": "2026-05-20", "name": "Bridgetown practice-guide watcher", "surface": "daisy", "status": "Live", "what": "Wed baseline + Mon briefing line + Mon noon Telegram fallback; auto-follows series transitions.", "why": "Never miss the weekly church practice guide for community group.", "location": "project_practice_guide_watcher", "approx": true}, {"date": "2026-05-20", "name": "Tailnet private pages", "surface": "infra", "status": "Live", "what": "Publish private web pages on the Mini via Tailscale Serve -> local port -> LaunchAgent.", "why": "Serve sensitive pages privately (macOS can't serve files directly).", "location": "reference_tailnet_private_pages", "approx": true}, {"date": "2026-05-18", "name": "Daisy Gmail attachment CLI", "surface": "daisy", "status": "Live", "what": "Downloads Gmail attachments (gap the Gmail connector can't fill); reuses gmail-cleanup OAuth.", "why": "Pull attachments Daisy otherwise couldn't reach.", "location": "~/daisy/bin/daisy-gmail-attachment", "approx": true}, {"date": "2026-05-17", "name": "Gmail OAuth permanent fix", "surface": "infra", "status": "Live", "what": "Consent screen published to Production; refresh token no longer expires on a timer.", "why": "Killed the recurring Gmail-auth break for good.", "location": "project_gmail_oauth_fix", "approx": false}, {"date": "2026-05-15", "name": "Daisy iMessage CLI", "surface": "daisy", "status": "Live", "what": "Send + scoped-read iMessage CLI; wired into host-check and reply-nudge flows.", "why": "Let Daisy act on iMessage, not just read awareness.", "location": "~/daisy/bin/daisy-imessage", "approx": true}, {"date": "2026-05-10", "name": "Morning briefing", "surface": "daisy", "status": "Live", "what": "Daily Telegram briefing: calendar, Big Three, weather, date-stamped.", "why": "Single daily orientation message so the day starts without digging.", "location": "~/daisy", "approx": true}];
-const SURFACE_LABEL = {daisy:"Daisy", skill:"Skill", infra:"Infra"};
+const DATA = [{"date": "2026-06-06", "name": "Incident log + outbound canary", "surface": "daisy", "status": "Live", "what": "Chronological outage tracker (incident_log.tsv); watchdog auto-appends; path-5 canary catches silent outbound drops.", "why": "Stop guessing at Daisy reliability; structural check caught a 3.5h silent outage.", "location": "~/daisy/logs/incident_log.tsv", "approx": false, "disp_date": "6/6/26"}, {"date": "2026-06-05", "name": "Weekly Preview (v2)", "surface": "daisy", "status": "Live", "what": "Sun review->preview + Fri 3pm capture; pulls work meetings from a 'Work busy' calendar mirror for capacity math.", "why": "Forward-looking week setup; v2 made it staffing/capacity aware.", "location": "project_weekly_preview", "approx": false, "disp_date": "6/5/26"}, {"date": "2026-06-04", "name": "Oura Ring integration", "surface": "daisy", "status": "Live", "what": "Daily sleep/recovery puller feeds the morning briefing (LAST NIGHT line) + monthly review trend.", "why": "Recovery context in the briefing; 2 config tweaks deferred for approval.", "location": "project_oura_integration", "approx": false, "disp_date": "6/4/26"}, {"date": "2026-06-04", "name": "On Your Radar", "surface": "daisy", "status": "Retired", "what": "Blind-spot job; folded into the weekly preview's 'on your radar' section.", "why": "Retired to avoid duplicate signal once the weekly preview covered it.", "location": "project_on_your_radar", "approx": false, "disp_date": "6/4/26"}, {"date": "2026-06-04", "name": "X5 touch-up paint page deploy", "surface": "infra", "status": "Live", "what": "Noindex link-only touch-up paint checklist.", "why": "Quick reference doc deploy.", "location": "danielwhwang.github.io/x5-2e8030", "approx": false, "disp_date": "6/4/26"}, {"date": "2026-06-03", "name": "Monthly review", "surface": "daisy", "status": "Experimental", "what": "Designed not built; trigger phrase 'build the monthly review'; pattern/trajectory complement to the weekly.", "why": "Forest-vs-trees companion to the weekly review.", "location": "project_monthly_review", "approx": false, "disp_date": "6/3/26"}, {"date": "2026-06-03", "name": "/counsel skill", "surface": "skill", "status": "Live", "what": "Mentor / Chief-of-Staff mode: questions + due diligence before recommendations.", "why": "A thinking-partner mode for live decisions and hard conversations.", "location": "project_counsel_skill", "approx": false, "disp_date": "6/3/26"}, {"date": "2026-06-02", "name": "/recon skill", "surface": "skill", "status": "Live", "what": "Chief-of-Staff look-back over 30d of Claude sessions (local + Mini); verifies flags vs Todoist/Calendar/Gmail.", "why": "Backward-looking complement to On Your Radar; catch dropped loops.", "location": "project_recon_skill", "approx": false, "disp_date": "6/2/26"}, {"date": "2026-06-02", "name": "Date-staleness fix", "surface": "infra", "status": "Live", "what": "Briefing/Big-Three prompts now stamp the real date after overnight restarts.", "why": "Daisy's 'today' was going stale after restart.", "location": "project_daisy_date_staleness", "approx": true, "disp_date": "6/2/26"}, {"date": "2026-06-01", "name": "Conversation-aware reviews", "surface": "daisy", "status": "Live", "what": "Weekly (Sun 10:30) + monthly (last-Sun 09:30) read the session corpus + tasks -> styled HTML to Drive + Telegram.", "why": "Reviews that reflect what actually happened, not just task lists.", "location": "project_conversation_aware_reviews", "approx": false, "disp_date": "6/1/26"}, {"date": "2026-06-01", "name": "Zombie-poller fix", "surface": "infra", "status": "Live", "what": "restart_daisy.sh pkill sweep + watchdog dup-detection for runaway duplicate bun pollers (409 token fight).", "why": "Fixed deaf-on-Telegram outages from duplicate listeners.", "location": "project_daisy_zombie_poller", "approx": false, "disp_date": "6/1/26"}, {"date": "2026-05-30", "name": "Comms search + inbound sweep", "surface": "daisy", "status": "Live", "what": "daisy-msg-search (iMessage/SMS) + daisy-gmail-search + 7:05am com.daisy.inbound LaunchAgent Telegram sweep.", "why": "Consolidate incoming across channels so nothing slips between apps.", "location": "project_comms_search", "approx": false, "disp_date": "5/30/26"}, {"date": "2026-05-30", "name": "/inbound skill", "surface": "skill", "status": "Live", "what": "Cross-channel incoming sweep: name-resolved, triaged iMessage/SMS + email in one view.", "why": "One consolidated 'what came in' instead of app-by-app checking.", "location": "project_comms_search", "approx": false, "disp_date": "5/30/26"}, {"date": "2026-05-30", "name": "Daisy working memory + Drive backup", "surface": "infra", "status": "Live", "what": "Local auto-loaded memory (!= Open Brain) + Drive output folder + nightly Drive backup of ~/daisy.", "why": "Persistent local context + offsite backup of Daisy's brain.", "location": "project_daisy_working_memory", "approx": true, "disp_date": "5/30/26"}, {"date": "2026-05-28", "name": "Award flight watcher (Phase 1)", "surface": "daisy", "status": "Live", "what": "seats.aero -> bookable-only (UR/MR) filter -> Daisy Telegram, twice daily.", "why": "Catch redeemable business-class award space without manual checking.", "location": "~/daisy/award_flight_watch.*", "approx": true, "disp_date": "5/28/26"}, {"date": "2026-05-27", "name": "Daisy -> Mac Mini migration", "surface": "infra", "status": "In progress", "what": "Phase 0 checklist; moving Daisy off the MacBook (now cold backup) onto the always-on Mini.", "why": "Always-on host; stop the MacBook display-crash risk to Daisy uptime.", "location": "project_daisy_mini_migration", "approx": false, "disp_date": "5/27/26"}, {"date": "2026-05-27", "name": "Mini Day-1 checklist page deploy", "surface": "infra", "status": "Live", "what": "Static setup checklist for the Mac Mini migration.", "why": "Track the migration steps from the phone.", "location": "danielwhwang.github.io/mini-1d7ab3", "approx": false, "disp_date": "5/27/26"}, {"date": "2026-05-25", "name": "Telegram plugin monitor", "surface": "infra", "status": "Live", "what": "Auto-detect + auto-restart when the Telegram MCP plugin goes offline (every 5 min).", "why": "Self-heal the most common Daisy outage class.", "location": "project_daisy_telegram_monitor", "approx": true, "disp_date": "5/25/26"}, {"date": "2026-05-25", "name": "GitHub Pages hosting", "surface": "infra", "status": "Live", "what": "Deploy noindex, link-only static HTML to GitHub Pages for shareable, phone-viewable links.", "why": "Stable URLs for docs/checklists viewable on the phone.", "location": "reference_github_pages", "approx": false, "disp_date": "5/25/26"}, {"date": "2026-05-25", "name": "London trip page deploy", "surface": "infra", "status": "Live", "what": "Interactive HTML itinerary (History/Food toggle) for the Sep 2026 parents trip.", "why": "Shareable, phone-friendly trip plan.", "location": "danielwhwang.github.io/ldn-894f6b", "approx": false, "disp_date": "5/25/26"}, {"date": "2026-05-24", "name": "Wednesday prep reminder", "surface": "daisy", "status": "Live", "what": "Tue 8pm nudge about packed Wed mornings (huddle + gym) with bedtime/wake math.", "why": "Protect against a rushed Wednesday morning.", "location": "project_wednesday_prep", "approx": true, "disp_date": "5/24/26"}, {"date": "2026-05-22", "name": "Claude usage tracker", "surface": "daisy", "status": "Live", "what": "Thursday ccusage -> Telegram summary of Claude Max usage.", "why": "Settled the keep-vs-downgrade $100 Max question (uses ~3.6x value).", "location": "project_claude_usage_tracker", "approx": true, "disp_date": "5/22/26"}, {"date": "2026-05-21", "name": "GroupMe host-announcement check", "surface": "daisy", "status": "Live", "what": "API-backed weekly host-post detector; Sat 3pm Telegram nudge + Sun briefing escalation.", "why": "Make sure a community-group host is confirmed before Sunday.", "location": "project_groupme_host_check", "approx": true, "disp_date": "5/21/26"}, {"date": "2026-05-20", "name": "Bridgetown practice-guide watcher", "surface": "daisy", "status": "Live", "what": "Wed baseline + Mon briefing line + Mon noon Telegram fallback; auto-follows series transitions.", "why": "Never miss the weekly church practice guide for community group.", "location": "project_practice_guide_watcher", "approx": true, "disp_date": "5/20/26"}, {"date": "2026-05-20", "name": "Tailnet private pages", "surface": "infra", "status": "Live", "what": "Publish private web pages on the Mini via Tailscale Serve -> local port -> LaunchAgent.", "why": "Serve sensitive pages privately (macOS can't serve files directly).", "location": "reference_tailnet_private_pages", "approx": true, "disp_date": "5/20/26"}, {"date": "2026-05-18", "name": "Daisy Gmail attachment CLI", "surface": "daisy", "status": "Live", "what": "Downloads Gmail attachments (gap the Gmail connector can't fill); reuses gmail-cleanup OAuth.", "why": "Pull attachments Daisy otherwise couldn't reach.", "location": "~/daisy/bin/daisy-gmail-attachment", "approx": true, "disp_date": "5/18/26"}, {"date": "2026-05-17", "name": "Gmail OAuth permanent fix", "surface": "infra", "status": "Live", "what": "Consent screen published to Production; refresh token no longer expires on a timer.", "why": "Killed the recurring Gmail-auth break for good.", "location": "project_gmail_oauth_fix", "approx": false, "disp_date": "5/17/26"}, {"date": "2026-05-15", "name": "Daisy iMessage CLI", "surface": "daisy", "status": "Live", "what": "Send + scoped-read iMessage CLI; wired into host-check and reply-nudge flows.", "why": "Let Daisy act on iMessage, not just read awareness.", "location": "~/daisy/bin/daisy-imessage", "approx": true, "disp_date": "5/15/26"}, {"date": "2026-05-10", "name": "Morning briefing", "surface": "daisy", "status": "Live", "what": "Daily Telegram briefing: calendar, Big Three, weather, date-stamped.", "why": "Single daily orientation message so the day starts without digging.", "location": "~/daisy", "approx": true, "disp_date": "5/10/26"}];
+const SL = {daisy:"Daisy", skill:"Skill", infra:"Infra"};
 let mode = "default";
-
 function esc(s){const d=document.createElement("div");d.textContent=s||"";return d.innerHTML;}
 
 function render(){
-  const surf = document.getElementById("surface").value;
   const stat = document.getElementById("status").value;
   const q = document.getElementById("q").value.trim().toLowerCase();
   let rows = DATA.slice();
   if (mode === "default") rows = rows.filter(r => r.surface !== "infra");
-  if (surf) rows = rows.filter(r => r.surface === surf);
   if (stat) rows = rows.filter(r => r.status === stat);
-  if (q) rows = rows.filter(r =>
-    (r.name+" "+r.what+" "+r.why).toLowerCase().includes(q));
+  if (q) rows = rows.filter(r => (r.name+" "+r.what+" "+r.why).toLowerCase().includes(q));
 
   document.getElementById("count").textContent =
     rows.length + (rows.length===1?" entry":" entries") +
     (mode==="default" ? " · Daisy + skills" : " · everything");
 
-  const list = document.getElementById("list");
-  if (!rows.length){ list.innerHTML = '<div class="empty">Nothing matches.</div>'; return; }
-  list.innerHTML = rows.map(r => `
-    <div class="card">
-      <div class="top">
-        <span class="name">${esc(r.name)}</span>
-        <span class="date">${esc(r.date)}${r.approx?' <span class="approx">(approx)</span>':''}</span>
-      </div>
-      <div class="badges">
-        <span class="badge b-${r.surface}">${esc(SURFACE_LABEL[r.surface]||r.surface)}</span>
-        <span class="badge s-${esc(r.status).replace(/ /g,'-')}">${esc(r.status)}</span>
-      </div>
-      <div class="what">${esc(r.what)}</div>
-      <div class="why"><b>Why:</b> ${esc(r.why)}</div>
-      <div class="loc">${esc(r.location)}</div>
-    </div>`).join("");
+  const tb = document.getElementById("rows");
+  if (!rows.length){ tb.innerHTML = '<tr><td colspan="6" class="empty">Nothing matches.</td></tr>'; return; }
+  tb.innerHTML = rows.map(r => `
+    <tr>
+      <td class="c-date">${esc(r.disp_date)}${r.approx?' <span class="ap">~</span>':''}</td>
+      <td class="c-name"><div class="clamp">${esc(r.name)}</div></td>
+      <td class="c-what"><div class="clamp">${esc(r.what)}</div></td>
+      <td class="c-why"><div class="clamp">${esc(r.why)}</div></td>
+      <td><span class="badge b-${r.surface}">${esc(SL[r.surface]||r.surface)}</span></td>
+      <td><span class="badge s-${esc(r.status).replace(/ /g,'-')}">${esc(r.status)}</span></td>
+    </tr>`).join("");
 }
 
 document.querySelectorAll("#mode button").forEach(b =>
   b.addEventListener("click", () => {
     mode = b.dataset.mode;
     document.querySelectorAll("#mode button").forEach(x => x.classList.remove("on"));
-    b.classList.add("on");
-    render();
+    b.classList.add("on"); render();
   }));
-["surface","status","q"].forEach(id =>
-  document.getElementById(id).addEventListener("input", render));
+["status","q"].forEach(id => document.getElementById(id).addEventListener("input", render));
 render();
 </script>
 </body>
