@@ -1,0 +1,14 @@
+# Daisy incident log — one row per real incident (false alarms excluded)
+# cause: A=auth/login death  B=poller dead/zombie  C=TUI wedge/ghost-text swallow  D=plugin outbound-drop  E=host/infra
+# mode: auto=watchdog self-recovered  manual=hands-on fix
+date	cause	mode	symptom	resolution
+2026-04-26	E	manual	Silently dead ~8 days after laptop crash	Undetected; motivated building liveness monitoring
+2026-04-30	D	manual	Telegram plugin outbound-drop (replies not sent)	Built telegram monitor (pane + API paths)
+2026-05-17	C	manual	Hard TUI wedge: inbound consumed, outbound dead, input pipe dead	SIGKILL claude + relaunch; added restart hardening
+2026-05-25	D	auto	Plugin outbound outage midday (pending>=1)	Watchdog path 2 auto-restart
+2026-05-26	D	auto	Plugin outage 11:27; auto-restart blocked 50min by idle-gate bug	Fixed idle-gate regex (present-tense spinners); restarted
+2026-05-30	B	auto	Bun poller silently died ~7h after nightly restart	Added watchdog path 0 (poller liveness); auto-restart
+2026-05-31	A	manual	Expired/revoked login token (auth Mode 2)	Remote /login re-auth; built watchdog v2
+2026-06-01	B	manual	Zombie duplicate bun poller fought for token (409, deaf)	kill -9 sweep; hardened restart_daisy.sh + watchdog dup-detect
+2026-06-06	C	manual	Ghost-text swallowed Telegram inbound; appeared unresponsive	Typed real msg via tmux + submit; found root cause = server-side tengu_prompt_suggestion experiment, --prompt-suggestions flag does not cover interactive TUI
+2026-06-06	D	manual	Plugin outbound silently dropped ~9:25am; she received+replied in-pane but nothing reached Telegram for ~3.5h; watchdog blind (auth ok/poller alive/pending 0)	front-door restart_daisy.sh restored channel; verified via plugin send msg_id 2083

@@ -4,43 +4,44 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Daisy & Skills — Shipped Log</title>
+<title>Daisy — Shipped & Incidents</title>
 <style>
-  :root {
-    --bg:#0f1115; --card:#171a21; --line:#262b36; --text:#e7eaf0; --muted:#9aa3b2;
-    --accent:#7aa2f7;
-  }
+  :root { --bg:#0f1115; --card:#171a21; --line:#262b36; --text:#e7eaf0; --muted:#9aa3b2; --accent:#7aa2f7; }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--text);
     font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
   .wrap { max-width:1100px; margin:0 auto; padding:16px 12px 60px; }
   h1 { font-size:19px; margin:0 0 2px; }
   .sub { color:var(--muted); margin:0 0 12px; font-size:12.5px; }
-  .controls { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:10px; }
+  .tabs { display:inline-flex; background:var(--card); border:1px solid var(--line);
+    border-radius:10px; padding:3px; gap:2px; margin-bottom:14px; }
+  .tabs button { background:transparent; color:var(--muted); border:0; cursor:pointer;
+    padding:7px 16px; border-radius:8px; font-size:13px; font-weight:600; }
+  .tabs button.on { background:var(--accent); color:#0b1020; }
+  .controls { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:8px; }
   .seg { display:inline-flex; background:var(--card); border:1px solid var(--line);
     border-radius:9px; padding:3px; gap:2px; }
   .seg button { background:transparent; color:var(--muted); border:0; cursor:pointer;
     padding:6px 12px; border-radius:7px; font-size:12.5px; font-weight:600; }
   .seg button.on { background:var(--accent); color:#0b1020; }
-  select, input[type=search], #reset { background:var(--card); color:var(--text);
+  select, input[type=search], .reset { background:var(--card); color:var(--text);
     border:1px solid var(--line); border-radius:8px; padding:6px 9px; font-size:12.5px; }
   input[type=search] { flex:1; min-width:120px; }
-  #reset { cursor:pointer; color:var(--muted); }
+  .reset { cursor:pointer; color:var(--muted); }
+  .legend { color:var(--muted); font-size:11.5px; margin:0 0 8px; }
   .count { color:var(--muted); font-size:12px; margin:2px 2px 8px; }
   .scroll { overflow-x:auto; border:1px solid var(--line); border-radius:10px;
     -webkit-overflow-scrolling:touch; }
   table { border-collapse:collapse; table-layout:fixed; font-size:12.5px; }
-  thead th { position:relative; background:#1c2029; color:var(--muted);
-    text-align:left; font-weight:600; padding:6px 8px; border-bottom:1px solid var(--line);
+  thead th { position:relative; background:#1c2029; color:var(--muted); text-align:left;
+    font-weight:600; padding:6px 8px; border-bottom:1px solid var(--line);
     white-space:nowrap; overflow:hidden; }
-  td { padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top;
-    overflow:hidden; }
+  td { padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; overflow:hidden; }
   tbody tr:hover { background:#1b1f28; }
   .c-date { white-space:nowrap; color:var(--muted); font-variant-numeric:tabular-nums; }
   .c-date .ap { opacity:.55; }
   .c-name { font-weight:700; }
-  .clamp { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
-    overflow:hidden; }
+  .clamp { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
   .c-why { color:var(--muted); }
   .badge { font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:999px;
     text-transform:uppercase; letter-spacing:.03em; white-space:nowrap; }
@@ -51,116 +52,154 @@
   .s-Retired { background:rgba(239,68,68,.16); color:#fca5a5; }
   .s-Experimental { background:rgba(245,158,11,.16); color:#fcd34d; }
   .s-In-progress { background:rgba(59,130,246,.16); color:#93c5fd; }
-  /* drag handle for resizing a column */
+  .cz { font-weight:800; font-size:12px; padding:2px 8px; border-radius:7px; }
+  .cz-A { background:rgba(239,68,68,.16); color:#fca5a5; }
+  .cz-B { background:rgba(245,158,11,.16); color:#fcd34d; }
+  .cz-C { background:rgba(139,92,246,.16); color:#c4b5fd; }
+  .cz-D { background:rgba(59,130,246,.16); color:#93c5fd; }
+  .cz-E { background:rgba(100,116,139,.22); color:#cbd5e1; }
+  .m-auto { background:rgba(16,185,129,.16); color:#6ee7b7; }
+  .m-manual { background:rgba(100,116,139,.22); color:#cbd5e1; }
+  .empty { color:var(--muted); text-align:center; padding:30px; }
   .rz { position:absolute; top:0; right:-7px; width:16px; height:100%;
     cursor:col-resize; touch-action:none; z-index:3; }
   .rz:after { content:""; position:absolute; right:7px; top:18%; height:64%; width:2px;
     background:var(--line); border-radius:2px; }
   .rz:active:after, .rz:hover:after { background:var(--accent); }
-  .empty { color:var(--muted); text-align:center; padding:30px; }
   footer { color:var(--muted); font-size:11.5px; margin-top:16px; }
+  .hidden { display:none; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Daisy &amp; Skills — Shipped Log</h1>
-  <p class="sub">Drag a column's right edge to resize — your widths save on this phone and stick next time.</p>
+  <h1>Daisy — Shipped &amp; Incidents</h1>
+  <p class="sub">Drag a column's right edge to resize — widths save on this device. Incidents update automatically when a defect is logged.</p>
 
-  <div class="controls">
-    <div class="seg" id="mode">
-      <button data-mode="default" class="on">Daisy + skills</button>
-      <button data-mode="all">Everything</button>
+  <div class="tabs" id="tabs">
+    <button data-tab="shipped" class="on">Shipped</button>
+    <button data-tab="incidents">Incidents</button>
+  </div>
+
+  <!-- ===== SHIPPED ===== -->
+  <section id="t-shipped">
+    <div class="controls">
+      <div class="seg" id="mode">
+        <button data-mode="default" class="on">Daisy + skills</button>
+        <button data-mode="all">Everything</button>
+      </div>
+      <select id="f-status">
+        <option value="">Any status</option>
+        <option>Live</option><option>Retired</option>
+        <option>Experimental</option><option>In progress</option>
+      </select>
+      <input type="search" id="f-q" placeholder="Search…">
+      <button class="reset" data-reset="shipped">Reset widths</button>
     </div>
-    <select id="status">
-      <option value="">Any status</option>
-      <option>Live</option><option>Retired</option>
-      <option>Experimental</option><option>In progress</option>
-    </select>
-    <input type="search" id="q" placeholder="Search…">
-    <button id="reset">Reset widths</button>
-  </div>
+    <div class="count" id="c-shipped"></div>
+    <div class="scroll">
+      <table id="tbl-shipped">
+        <colgroup><col><col><col><col><col><col></colgroup>
+        <thead><tr>
+          <th>Date<span class="rz" data-i="0"></span></th>
+          <th>Feature<span class="rz" data-i="1"></span></th>
+          <th>What it does<span class="rz" data-i="2"></span></th>
+          <th>Why<span class="rz" data-i="3"></span></th>
+          <th>Surface<span class="rz" data-i="4"></span></th>
+          <th>Status<span class="rz" data-i="5"></span></th>
+        </tr></thead>
+        <tbody id="rows-shipped"></tbody>
+      </table>
+    </div>
+  </section>
 
-  <div class="count" id="count"></div>
+  <!-- ===== INCIDENTS ===== -->
+  <section id="t-incidents" class="hidden">
+    <div class="controls">
+      <select id="i-cause">
+        <option value="">Any cause</option>
+        <option value="A">A · auth</option>
+        <option value="B">B · poller</option>
+        <option value="C">C · TUI/ghost-text</option>
+        <option value="D">D · plugin outbound</option>
+        <option value="E">E · host/infra</option>
+      </select>
+      <select id="i-mode">
+        <option value="">Any mode</option>
+        <option value="auto">auto (self-healed)</option>
+        <option value="manual">manual fix</option>
+      </select>
+      <input type="search" id="i-q" placeholder="Search…">
+      <button class="reset" data-reset="incidents">Reset widths</button>
+    </div>
+    <div class="legend">Cause: <b>A</b> auth · <b>B</b> poller · <b>C</b> TUI/ghost-text · <b>D</b> plugin outbound · <b>E</b> host/infra &nbsp;|&nbsp; Mode: auto = watchdog self-recovered, manual = hands-on fix</div>
+    <div class="count" id="c-incidents"></div>
+    <div class="scroll">
+      <table id="tbl-incidents">
+        <colgroup><col><col><col><col><col></colgroup>
+        <thead><tr>
+          <th>Date<span class="rz" data-i="0"></span></th>
+          <th>Cause<span class="rz" data-i="1"></span></th>
+          <th>Mode<span class="rz" data-i="2"></span></th>
+          <th>Symptom<span class="rz" data-i="3"></span></th>
+          <th>Resolution<span class="rz" data-i="4"></span></th>
+        </tr></thead>
+        <tbody id="rows-incidents"></tbody>
+      </table>
+    </div>
+  </section>
 
-  <div class="scroll">
-    <table>
-      <colgroup><col><col><col><col><col><col></colgroup>
-      <thead><tr>
-        <th>Date<span class="rz" data-i="0"></span></th>
-        <th>Feature<span class="rz" data-i="1"></span></th>
-        <th>What it does<span class="rz" data-i="2"></span></th>
-        <th>Why<span class="rz" data-i="3"></span></th>
-        <th>Surface<span class="rz" data-i="4"></span></th>
-        <th>Status<span class="rz" data-i="5"></span></th>
-      </tr></thead>
-      <tbody id="rows"></tbody>
-    </table>
-  </div>
-
-  <footer>Edit <code>feature_log.tsv</code> + run <code>build.py</code> to update.</footer>
+  <footer>Shipped: edit <code>feature_log.tsv</code> + run <code>build.py</code>. Incidents: auto-synced from the Mini's <code>incident_log.tsv</code>.</footer>
 </div>
 
 <script>
-const DATA = [{"date": "2026-06-06", "name": "Incident log + outbound canary", "surface": "daisy", "status": "Live", "what": "Chronological outage tracker (incident_log.tsv); watchdog auto-appends; path-5 canary catches silent outbound drops.", "why": "Stop guessing at Daisy reliability; structural check caught a 3.5h silent outage.", "location": "~/daisy/logs/incident_log.tsv", "approx": false, "disp_date": "6/6/26"}, {"date": "2026-06-05", "name": "Weekly Preview (v2)", "surface": "daisy", "status": "Live", "what": "Sun review->preview + Fri 3pm capture; pulls work meetings from a 'Work busy' calendar mirror for capacity math.", "why": "Forward-looking week setup; v2 made it staffing/capacity aware.", "location": "project_weekly_preview", "approx": false, "disp_date": "6/5/26"}, {"date": "2026-06-04", "name": "Oura Ring integration", "surface": "daisy", "status": "Live", "what": "Daily sleep/recovery puller feeds the morning briefing (LAST NIGHT line) + monthly review trend.", "why": "Recovery context in the briefing; 2 config tweaks deferred for approval.", "location": "project_oura_integration", "approx": false, "disp_date": "6/4/26"}, {"date": "2026-06-04", "name": "On Your Radar", "surface": "daisy", "status": "Retired", "what": "Blind-spot job; folded into the weekly preview's 'on your radar' section.", "why": "Retired to avoid duplicate signal once the weekly preview covered it.", "location": "project_on_your_radar", "approx": false, "disp_date": "6/4/26"}, {"date": "2026-06-04", "name": "X5 touch-up paint page deploy", "surface": "infra", "status": "Live", "what": "Noindex link-only touch-up paint checklist.", "why": "Quick reference doc deploy.", "location": "danielwhwang.github.io/x5-2e8030", "approx": false, "disp_date": "6/4/26"}, {"date": "2026-06-03", "name": "Monthly review", "surface": "daisy", "status": "Experimental", "what": "Designed not built; trigger phrase 'build the monthly review'; pattern/trajectory complement to the weekly.", "why": "Forest-vs-trees companion to the weekly review.", "location": "project_monthly_review", "approx": false, "disp_date": "6/3/26"}, {"date": "2026-06-03", "name": "/counsel skill", "surface": "skill", "status": "Live", "what": "Mentor / Chief-of-Staff mode: questions + due diligence before recommendations.", "why": "A thinking-partner mode for live decisions and hard conversations.", "location": "project_counsel_skill", "approx": false, "disp_date": "6/3/26"}, {"date": "2026-06-02", "name": "/recon skill", "surface": "skill", "status": "Live", "what": "Chief-of-Staff look-back over 30d of Claude sessions (local + Mini); verifies flags vs Todoist/Calendar/Gmail.", "why": "Backward-looking complement to On Your Radar; catch dropped loops.", "location": "project_recon_skill", "approx": false, "disp_date": "6/2/26"}, {"date": "2026-06-02", "name": "Date-staleness fix", "surface": "infra", "status": "Live", "what": "Briefing/Big-Three prompts now stamp the real date after overnight restarts.", "why": "Daisy's 'today' was going stale after restart.", "location": "project_daisy_date_staleness", "approx": true, "disp_date": "6/2/26"}, {"date": "2026-06-01", "name": "Conversation-aware reviews", "surface": "daisy", "status": "Live", "what": "Weekly (Sun 10:30) + monthly (last-Sun 09:30) read the session corpus + tasks -> styled HTML to Drive + Telegram.", "why": "Reviews that reflect what actually happened, not just task lists.", "location": "project_conversation_aware_reviews", "approx": false, "disp_date": "6/1/26"}, {"date": "2026-06-01", "name": "Zombie-poller fix", "surface": "infra", "status": "Live", "what": "restart_daisy.sh pkill sweep + watchdog dup-detection for runaway duplicate bun pollers (409 token fight).", "why": "Fixed deaf-on-Telegram outages from duplicate listeners.", "location": "project_daisy_zombie_poller", "approx": false, "disp_date": "6/1/26"}, {"date": "2026-05-30", "name": "Comms search + inbound sweep", "surface": "daisy", "status": "Live", "what": "daisy-msg-search (iMessage/SMS) + daisy-gmail-search + 7:05am com.daisy.inbound LaunchAgent Telegram sweep.", "why": "Consolidate incoming across channels so nothing slips between apps.", "location": "project_comms_search", "approx": false, "disp_date": "5/30/26"}, {"date": "2026-05-30", "name": "/inbound skill", "surface": "skill", "status": "Live", "what": "Cross-channel incoming sweep: name-resolved, triaged iMessage/SMS + email in one view.", "why": "One consolidated 'what came in' instead of app-by-app checking.", "location": "project_comms_search", "approx": false, "disp_date": "5/30/26"}, {"date": "2026-05-30", "name": "Daisy working memory + Drive backup", "surface": "infra", "status": "Live", "what": "Local auto-loaded memory (!= Open Brain) + Drive output folder + nightly Drive backup of ~/daisy.", "why": "Persistent local context + offsite backup of Daisy's brain.", "location": "project_daisy_working_memory", "approx": true, "disp_date": "5/30/26"}, {"date": "2026-05-28", "name": "Award flight watcher (Phase 1)", "surface": "daisy", "status": "Live", "what": "seats.aero -> bookable-only (UR/MR) filter -> Daisy Telegram, twice daily.", "why": "Catch redeemable business-class award space without manual checking.", "location": "~/daisy/award_flight_watch.*", "approx": true, "disp_date": "5/28/26"}, {"date": "2026-05-27", "name": "Daisy -> Mac Mini migration", "surface": "infra", "status": "In progress", "what": "Phase 0 checklist; moving Daisy off the MacBook (now cold backup) onto the always-on Mini.", "why": "Always-on host; stop the MacBook display-crash risk to Daisy uptime.", "location": "project_daisy_mini_migration", "approx": false, "disp_date": "5/27/26"}, {"date": "2026-05-27", "name": "Mini Day-1 checklist page deploy", "surface": "infra", "status": "Live", "what": "Static setup checklist for the Mac Mini migration.", "why": "Track the migration steps from the phone.", "location": "danielwhwang.github.io/mini-1d7ab3", "approx": false, "disp_date": "5/27/26"}, {"date": "2026-05-25", "name": "Telegram plugin monitor", "surface": "infra", "status": "Live", "what": "Auto-detect + auto-restart when the Telegram MCP plugin goes offline (every 5 min).", "why": "Self-heal the most common Daisy outage class.", "location": "project_daisy_telegram_monitor", "approx": true, "disp_date": "5/25/26"}, {"date": "2026-05-25", "name": "GitHub Pages hosting", "surface": "infra", "status": "Live", "what": "Deploy noindex, link-only static HTML to GitHub Pages for shareable, phone-viewable links.", "why": "Stable URLs for docs/checklists viewable on the phone.", "location": "reference_github_pages", "approx": false, "disp_date": "5/25/26"}, {"date": "2026-05-25", "name": "London trip page deploy", "surface": "infra", "status": "Live", "what": "Interactive HTML itinerary (History/Food toggle) for the Sep 2026 parents trip.", "why": "Shareable, phone-friendly trip plan.", "location": "danielwhwang.github.io/ldn-894f6b", "approx": false, "disp_date": "5/25/26"}, {"date": "2026-05-24", "name": "Wednesday prep reminder", "surface": "daisy", "status": "Live", "what": "Tue 8pm nudge about packed Wed mornings (huddle + gym) with bedtime/wake math.", "why": "Protect against a rushed Wednesday morning.", "location": "project_wednesday_prep", "approx": true, "disp_date": "5/24/26"}, {"date": "2026-05-22", "name": "Claude usage tracker", "surface": "daisy", "status": "Live", "what": "Thursday ccusage -> Telegram summary of Claude Max usage.", "why": "Settled the keep-vs-downgrade $100 Max question (uses ~3.6x value).", "location": "project_claude_usage_tracker", "approx": true, "disp_date": "5/22/26"}, {"date": "2026-05-21", "name": "GroupMe host-announcement check", "surface": "daisy", "status": "Live", "what": "API-backed weekly host-post detector; Sat 3pm Telegram nudge + Sun briefing escalation.", "why": "Make sure a community-group host is confirmed before Sunday.", "location": "project_groupme_host_check", "approx": true, "disp_date": "5/21/26"}, {"date": "2026-05-20", "name": "Bridgetown practice-guide watcher", "surface": "daisy", "status": "Live", "what": "Wed baseline + Mon briefing line + Mon noon Telegram fallback; auto-follows series transitions.", "why": "Never miss the weekly church practice guide for community group.", "location": "project_practice_guide_watcher", "approx": true, "disp_date": "5/20/26"}, {"date": "2026-05-20", "name": "Tailnet private pages", "surface": "infra", "status": "Live", "what": "Publish private web pages on the Mini via Tailscale Serve -> local port -> LaunchAgent.", "why": "Serve sensitive pages privately (macOS can't serve files directly).", "location": "reference_tailnet_private_pages", "approx": true, "disp_date": "5/20/26"}, {"date": "2026-05-18", "name": "Daisy Gmail attachment CLI", "surface": "daisy", "status": "Live", "what": "Downloads Gmail attachments (gap the Gmail connector can't fill); reuses gmail-cleanup OAuth.", "why": "Pull attachments Daisy otherwise couldn't reach.", "location": "~/daisy/bin/daisy-gmail-attachment", "approx": true, "disp_date": "5/18/26"}, {"date": "2026-05-17", "name": "Gmail OAuth permanent fix", "surface": "infra", "status": "Live", "what": "Consent screen published to Production; refresh token no longer expires on a timer.", "why": "Killed the recurring Gmail-auth break for good.", "location": "project_gmail_oauth_fix", "approx": false, "disp_date": "5/17/26"}, {"date": "2026-05-15", "name": "Daisy iMessage CLI", "surface": "daisy", "status": "Live", "what": "Send + scoped-read iMessage CLI; wired into host-check and reply-nudge flows.", "why": "Let Daisy act on iMessage, not just read awareness.", "location": "~/daisy/bin/daisy-imessage", "approx": true, "disp_date": "5/15/26"}, {"date": "2026-05-10", "name": "Morning briefing", "surface": "daisy", "status": "Live", "what": "Daily Telegram briefing: calendar, Big Three, weather, date-stamped.", "why": "Single daily orientation message so the day starts without digging.", "location": "~/daisy", "approx": true, "disp_date": "5/10/26"}];
+const FEAT = [{"date": "2026-06-06", "name": "Incident log + outbound canary", "surface": "daisy", "status": "Live", "what": "Chronological outage tracker (incident_log.tsv); watchdog auto-appends; path-5 canary catches silent outbound drops.", "why": "Stop guessing at Daisy reliability; structural check caught a 3.5h silent outage.", "location": "~/daisy/logs/incident_log.tsv", "approx": false, "disp_date": "6/6/26"}, {"date": "2026-06-05", "name": "Weekly Preview (v2)", "surface": "daisy", "status": "Live", "what": "Sun review->preview + Fri 3pm capture; pulls work meetings from a 'Work busy' calendar mirror for capacity math.", "why": "Forward-looking week setup; v2 made it staffing/capacity aware.", "location": "project_weekly_preview", "approx": false, "disp_date": "6/5/26"}, {"date": "2026-06-04", "name": "Oura Ring integration", "surface": "daisy", "status": "Live", "what": "Daily sleep/recovery puller feeds the morning briefing (LAST NIGHT line) + monthly review trend.", "why": "Recovery context in the briefing; 2 config tweaks deferred for approval.", "location": "project_oura_integration", "approx": false, "disp_date": "6/4/26"}, {"date": "2026-06-04", "name": "On Your Radar", "surface": "daisy", "status": "Retired", "what": "Blind-spot job; folded into the weekly preview's 'on your radar' section.", "why": "Retired to avoid duplicate signal once the weekly preview covered it.", "location": "project_on_your_radar", "approx": false, "disp_date": "6/4/26"}, {"date": "2026-06-04", "name": "X5 touch-up paint page deploy", "surface": "infra", "status": "Live", "what": "Noindex link-only touch-up paint checklist.", "why": "Quick reference doc deploy.", "location": "danielwhwang.github.io/x5-2e8030", "approx": false, "disp_date": "6/4/26"}, {"date": "2026-06-03", "name": "Monthly review", "surface": "daisy", "status": "Experimental", "what": "Designed not built; trigger phrase 'build the monthly review'; pattern/trajectory complement to the weekly.", "why": "Forest-vs-trees companion to the weekly review.", "location": "project_monthly_review", "approx": false, "disp_date": "6/3/26"}, {"date": "2026-06-03", "name": "/counsel skill", "surface": "skill", "status": "Live", "what": "Mentor / Chief-of-Staff mode: questions + due diligence before recommendations.", "why": "A thinking-partner mode for live decisions and hard conversations.", "location": "project_counsel_skill", "approx": false, "disp_date": "6/3/26"}, {"date": "2026-06-02", "name": "/recon skill", "surface": "skill", "status": "Live", "what": "Chief-of-Staff look-back over 30d of Claude sessions (local + Mini); verifies flags vs Todoist/Calendar/Gmail.", "why": "Backward-looking complement to On Your Radar; catch dropped loops.", "location": "project_recon_skill", "approx": false, "disp_date": "6/2/26"}, {"date": "2026-06-02", "name": "Date-staleness fix", "surface": "infra", "status": "Live", "what": "Briefing/Big-Three prompts now stamp the real date after overnight restarts.", "why": "Daisy's 'today' was going stale after restart.", "location": "project_daisy_date_staleness", "approx": true, "disp_date": "6/2/26"}, {"date": "2026-06-01", "name": "Conversation-aware reviews", "surface": "daisy", "status": "Live", "what": "Weekly (Sun 10:30) + monthly (last-Sun 09:30) read the session corpus + tasks -> styled HTML to Drive + Telegram.", "why": "Reviews that reflect what actually happened, not just task lists.", "location": "project_conversation_aware_reviews", "approx": false, "disp_date": "6/1/26"}, {"date": "2026-06-01", "name": "Zombie-poller fix", "surface": "infra", "status": "Live", "what": "restart_daisy.sh pkill sweep + watchdog dup-detection for runaway duplicate bun pollers (409 token fight).", "why": "Fixed deaf-on-Telegram outages from duplicate listeners.", "location": "project_daisy_zombie_poller", "approx": false, "disp_date": "6/1/26"}, {"date": "2026-05-30", "name": "Comms search + inbound sweep", "surface": "daisy", "status": "Live", "what": "daisy-msg-search (iMessage/SMS) + daisy-gmail-search + 7:05am com.daisy.inbound LaunchAgent Telegram sweep.", "why": "Consolidate incoming across channels so nothing slips between apps.", "location": "project_comms_search", "approx": false, "disp_date": "5/30/26"}, {"date": "2026-05-30", "name": "/inbound skill", "surface": "skill", "status": "Live", "what": "Cross-channel incoming sweep: name-resolved, triaged iMessage/SMS + email in one view.", "why": "One consolidated 'what came in' instead of app-by-app checking.", "location": "project_comms_search", "approx": false, "disp_date": "5/30/26"}, {"date": "2026-05-30", "name": "Daisy working memory + Drive backup", "surface": "infra", "status": "Live", "what": "Local auto-loaded memory (!= Open Brain) + Drive output folder + nightly Drive backup of ~/daisy.", "why": "Persistent local context + offsite backup of Daisy's brain.", "location": "project_daisy_working_memory", "approx": true, "disp_date": "5/30/26"}, {"date": "2026-05-28", "name": "Award flight watcher (Phase 1)", "surface": "daisy", "status": "Live", "what": "seats.aero -> bookable-only (UR/MR) filter -> Daisy Telegram, twice daily.", "why": "Catch redeemable business-class award space without manual checking.", "location": "~/daisy/award_flight_watch.*", "approx": true, "disp_date": "5/28/26"}, {"date": "2026-05-27", "name": "Daisy -> Mac Mini migration", "surface": "infra", "status": "In progress", "what": "Phase 0 checklist; moving Daisy off the MacBook (now cold backup) onto the always-on Mini.", "why": "Always-on host; stop the MacBook display-crash risk to Daisy uptime.", "location": "project_daisy_mini_migration", "approx": false, "disp_date": "5/27/26"}, {"date": "2026-05-27", "name": "Mini Day-1 checklist page deploy", "surface": "infra", "status": "Live", "what": "Static setup checklist for the Mac Mini migration.", "why": "Track the migration steps from the phone.", "location": "danielwhwang.github.io/mini-1d7ab3", "approx": false, "disp_date": "5/27/26"}, {"date": "2026-05-25", "name": "Telegram plugin monitor", "surface": "infra", "status": "Live", "what": "Auto-detect + auto-restart when the Telegram MCP plugin goes offline (every 5 min).", "why": "Self-heal the most common Daisy outage class.", "location": "project_daisy_telegram_monitor", "approx": true, "disp_date": "5/25/26"}, {"date": "2026-05-25", "name": "GitHub Pages hosting", "surface": "infra", "status": "Live", "what": "Deploy noindex, link-only static HTML to GitHub Pages for shareable, phone-viewable links.", "why": "Stable URLs for docs/checklists viewable on the phone.", "location": "reference_github_pages", "approx": false, "disp_date": "5/25/26"}, {"date": "2026-05-25", "name": "London trip page deploy", "surface": "infra", "status": "Live", "what": "Interactive HTML itinerary (History/Food toggle) for the Sep 2026 parents trip.", "why": "Shareable, phone-friendly trip plan.", "location": "danielwhwang.github.io/ldn-894f6b", "approx": false, "disp_date": "5/25/26"}, {"date": "2026-05-24", "name": "Wednesday prep reminder", "surface": "daisy", "status": "Live", "what": "Tue 8pm nudge about packed Wed mornings (huddle + gym) with bedtime/wake math.", "why": "Protect against a rushed Wednesday morning.", "location": "project_wednesday_prep", "approx": true, "disp_date": "5/24/26"}, {"date": "2026-05-22", "name": "Claude usage tracker", "surface": "daisy", "status": "Live", "what": "Thursday ccusage -> Telegram summary of Claude Max usage.", "why": "Settled the keep-vs-downgrade $100 Max question (uses ~3.6x value).", "location": "project_claude_usage_tracker", "approx": true, "disp_date": "5/22/26"}, {"date": "2026-05-21", "name": "GroupMe host-announcement check", "surface": "daisy", "status": "Live", "what": "API-backed weekly host-post detector; Sat 3pm Telegram nudge + Sun briefing escalation.", "why": "Make sure a community-group host is confirmed before Sunday.", "location": "project_groupme_host_check", "approx": true, "disp_date": "5/21/26"}, {"date": "2026-05-20", "name": "Bridgetown practice-guide watcher", "surface": "daisy", "status": "Live", "what": "Wed baseline + Mon briefing line + Mon noon Telegram fallback; auto-follows series transitions.", "why": "Never miss the weekly church practice guide for community group.", "location": "project_practice_guide_watcher", "approx": true, "disp_date": "5/20/26"}, {"date": "2026-05-20", "name": "Tailnet private pages", "surface": "infra", "status": "Live", "what": "Publish private web pages on the Mini via Tailscale Serve -> local port -> LaunchAgent.", "why": "Serve sensitive pages privately (macOS can't serve files directly).", "location": "reference_tailnet_private_pages", "approx": true, "disp_date": "5/20/26"}, {"date": "2026-05-18", "name": "Daisy Gmail attachment CLI", "surface": "daisy", "status": "Live", "what": "Downloads Gmail attachments (gap the Gmail connector can't fill); reuses gmail-cleanup OAuth.", "why": "Pull attachments Daisy otherwise couldn't reach.", "location": "~/daisy/bin/daisy-gmail-attachment", "approx": true, "disp_date": "5/18/26"}, {"date": "2026-05-17", "name": "Gmail OAuth permanent fix", "surface": "infra", "status": "Live", "what": "Consent screen published to Production; refresh token no longer expires on a timer.", "why": "Killed the recurring Gmail-auth break for good.", "location": "project_gmail_oauth_fix", "approx": false, "disp_date": "5/17/26"}, {"date": "2026-05-15", "name": "Daisy iMessage CLI", "surface": "daisy", "status": "Live", "what": "Send + scoped-read iMessage CLI; wired into host-check and reply-nudge flows.", "why": "Let Daisy act on iMessage, not just read awareness.", "location": "~/daisy/bin/daisy-imessage", "approx": true, "disp_date": "5/15/26"}, {"date": "2026-05-10", "name": "Morning briefing", "surface": "daisy", "status": "Live", "what": "Daily Telegram briefing: calendar, Big Three, weather, date-stamped.", "why": "Single daily orientation message so the day starts without digging.", "location": "~/daisy", "approx": true, "disp_date": "5/10/26"}];
+const INC = [{"date": "2026-06-06", "cause": "C", "mode": "manual", "symptom": "Ghost-text swallowed Telegram inbound; appeared unresponsive", "resolution": "Typed real msg via tmux + submit; found root cause = server-side tengu_prompt_suggestion experiment, --prompt-suggestions flag does not cover interactive TUI", "disp_date": "6/6/26"}, {"date": "2026-06-06", "cause": "D", "mode": "manual", "symptom": "Plugin outbound silently dropped ~9:25am; she received+replied in-pane but nothing reached Telegram for ~3.5h; watchdog blind (auth ok/poller alive/pending 0)", "resolution": "front-door restart_daisy.sh restored channel; verified via plugin send msg_id 2083", "disp_date": "6/6/26"}, {"date": "2026-06-01", "cause": "B", "mode": "manual", "symptom": "Zombie duplicate bun poller fought for token (409, deaf)", "resolution": "kill -9 sweep; hardened restart_daisy.sh + watchdog dup-detect", "disp_date": "6/1/26"}, {"date": "2026-05-31", "cause": "A", "mode": "manual", "symptom": "Expired/revoked login token (auth Mode 2)", "resolution": "Remote /login re-auth; built watchdog v2", "disp_date": "5/31/26"}, {"date": "2026-05-30", "cause": "B", "mode": "auto", "symptom": "Bun poller silently died ~7h after nightly restart", "resolution": "Added watchdog path 0 (poller liveness); auto-restart", "disp_date": "5/30/26"}, {"date": "2026-05-26", "cause": "D", "mode": "auto", "symptom": "Plugin outage 11:27; auto-restart blocked 50min by idle-gate bug", "resolution": "Fixed idle-gate regex (present-tense spinners); restarted", "disp_date": "5/26/26"}, {"date": "2026-05-25", "cause": "D", "mode": "auto", "symptom": "Plugin outbound outage midday (pending>=1)", "resolution": "Watchdog path 2 auto-restart", "disp_date": "5/25/26"}, {"date": "2026-05-17", "cause": "C", "mode": "manual", "symptom": "Hard TUI wedge: inbound consumed, outbound dead, input pipe dead", "resolution": "SIGKILL claude + relaunch; added restart hardening", "disp_date": "5/17/26"}, {"date": "2026-04-30", "cause": "D", "mode": "manual", "symptom": "Telegram plugin outbound-drop (replies not sent)", "resolution": "Built telegram monitor (pane + API paths)", "disp_date": "4/30/26"}, {"date": "2026-04-26", "cause": "E", "mode": "manual", "symptom": "Silently dead ~8 days after laptop crash", "resolution": "Undetected; motivated building liveness monitoring", "disp_date": "4/26/26"}];
 const SL = {daisy:"Daisy", skill:"Skill", infra:"Infra"};
-let mode = "default";
 function esc(s){const d=document.createElement("div");d.textContent=s||"";return d.innerHTML;}
 
-/* ---- resizable, persisted column widths ---- */
-const DEF = [56, 104, 250, 210, 78, 84];
-const KEY = "daisylog_colw_v1";
-const cols = document.querySelectorAll("colgroup col");
-const table = document.querySelector(".scroll table");
-let widths = loadW();
-function loadW(){
-  try { const s = JSON.parse(localStorage.getItem(KEY));
-    if (Array.isArray(s) && s.length === 6) return s.map(Number); } catch(e){}
-  return DEF.slice();
-}
-function saveW(){ try { localStorage.setItem(KEY, JSON.stringify(widths)); } catch(e){} }
-function applyW(){
-  let tot = 0;
-  widths.forEach((w,i)=>{ cols[i].style.width = w + "px"; tot += w; });
-  table.style.width = tot + "px";
-}
-let drag = null;
-document.querySelectorAll(".rz").forEach(h => {
-  h.addEventListener("pointerdown", e => {
-    e.preventDefault(); e.stopPropagation();
-    const i = +h.dataset.i;
-    drag = { i, x: e.clientX, w: widths[i] };
-    h.setPointerCapture(e.pointerId);
+/* ---- generic resizable/persisted columns for one table ---- */
+function makeResizable(tableId, defaults, key){
+  const table = document.getElementById(tableId);
+  const cols = table.querySelectorAll("colgroup col");
+  let widths;
+  try { const s = JSON.parse(localStorage.getItem(key));
+    widths = (Array.isArray(s) && s.length === defaults.length) ? s.map(Number) : defaults.slice();
+  } catch(e) { widths = defaults.slice(); }
+  function apply(){ let t=0; widths.forEach((w,i)=>{ cols[i].style.width=w+"px"; t+=w; }); table.style.width=t+"px"; }
+  function save(){ try{ localStorage.setItem(key, JSON.stringify(widths)); }catch(e){} }
+  let drag=null;
+  table.querySelectorAll(".rz").forEach(h=>{
+    h.addEventListener("pointerdown", e=>{ e.preventDefault(); e.stopPropagation();
+      drag={i:+h.dataset.i, x:e.clientX, w:widths[+h.dataset.i]}; h.setPointerCapture(e.pointerId); });
+    h.addEventListener("pointermove", e=>{ if(!drag) return;
+      widths[drag.i]=Math.max(40, drag.w+(e.clientX-drag.x)); apply(); });
+    const end=()=>{ if(drag){ drag=null; save(); } };
+    h.addEventListener("pointerup", end); h.addEventListener("pointercancel", end);
   });
-  h.addEventListener("pointermove", e => {
-    if (!drag) return;
-    widths[drag.i] = Math.max(40, drag.w + (e.clientX - drag.x));
-    applyW();
-  });
-  const end = () => { if (drag) { drag = null; saveW(); } };
-  h.addEventListener("pointerup", end);
-  h.addEventListener("pointercancel", end);
-});
-document.getElementById("reset").addEventListener("click", () => {
-  widths = DEF.slice(); applyW(); saveW();
-});
+  apply();
+  return { reset(){ widths=defaults.slice(); apply(); save(); } };
+}
+const RS = {
+  shipped: makeResizable("tbl-shipped", [56,104,250,210,78,84], "daisylog_colw_v2"),
+  incidents: makeResizable("tbl-incidents", [56,62,74,260,260], "daisyinc_colw_v1"),
+};
+document.querySelectorAll(".reset").forEach(b =>
+  b.addEventListener("click", () => RS[b.dataset.reset].reset()));
 
-/* ---- filtering + render ---- */
-function render(){
-  const stat = document.getElementById("status").value;
-  const q = document.getElementById("q").value.trim().toLowerCase();
-  let r = DATA.slice();
+/* ---- shipped render ---- */
+let mode = "default";
+function renderShipped(){
+  const stat = document.getElementById("f-status").value;
+  const q = document.getElementById("f-q").value.trim().toLowerCase();
+  let r = FEAT.slice();
   if (mode === "default") r = r.filter(x => x.surface !== "infra");
   if (stat) r = r.filter(x => x.status === stat);
   if (q) r = r.filter(x => (x.name+" "+x.what+" "+x.why).toLowerCase().includes(q));
-
-  document.getElementById("count").textContent =
-    r.length + (r.length===1?" entry":" entries") +
-    (mode==="default" ? " · Daisy + skills" : " · everything");
-
-  const tb = document.getElementById("rows");
-  if (!r.length){ tb.innerHTML = '<tr><td colspan="6" class="empty">Nothing matches.</td></tr>'; return; }
-  tb.innerHTML = r.map(x => `
-    <tr>
+  document.getElementById("c-shipped").textContent =
+    r.length + (r.length===1?" entry":" entries") + (mode==="default"?" · Daisy + skills":" · everything");
+  const tb = document.getElementById("rows-shipped");
+  tb.innerHTML = !r.length ? '<tr><td colspan="6" class="empty">Nothing matches.</td></tr>' :
+    r.map(x => `<tr>
       <td class="c-date">${esc(x.disp_date)}${x.approx?' <span class="ap">~</span>':''}</td>
       <td class="c-name"><div class="clamp">${esc(x.name)}</div></td>
       <td><div class="clamp">${esc(x.what)}</div></td>
@@ -169,17 +208,47 @@ function render(){
       <td><span class="badge s-${esc(x.status).replace(/ /g,'-')}">${esc(x.status)}</span></td>
     </tr>`).join("");
 }
-
 document.querySelectorAll("#mode button").forEach(b =>
-  b.addEventListener("click", () => {
-    mode = b.dataset.mode;
-    document.querySelectorAll("#mode button").forEach(x => x.classList.remove("on"));
-    b.classList.add("on"); render();
-  }));
-["status","q"].forEach(id => document.getElementById(id).addEventListener("input", render));
+  b.addEventListener("click", () => { mode=b.dataset.mode;
+    document.querySelectorAll("#mode button").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on"); renderShipped(); }));
+["f-status","f-q"].forEach(id => document.getElementById(id).addEventListener("input", renderShipped));
 
-applyW();
-render();
+/* ---- incidents render ---- */
+function renderIncidents(){
+  const cause = document.getElementById("i-cause").value;
+  const md = document.getElementById("i-mode").value;
+  const q = document.getElementById("i-q").value.trim().toLowerCase();
+  let r = INC.slice();
+  if (cause) r = r.filter(x => (x.cause||"").toUpperCase() === cause);
+  if (md) r = r.filter(x => (x.mode||"").toLowerCase() === md);
+  if (q) r = r.filter(x => (x.symptom+" "+x.resolution).toLowerCase().includes(q));
+  document.getElementById("c-incidents").textContent = r.length + (r.length===1?" incident":" incidents");
+  const tb = document.getElementById("rows-incidents");
+  tb.innerHTML = !r.length ? '<tr><td colspan="5" class="empty">Nothing matches.</td></tr>' :
+    r.map(x => { const c=(x.cause||"").toUpperCase(), m=(x.mode||"").toLowerCase();
+      return `<tr>
+      <td class="c-date">${esc(x.disp_date)}</td>
+      <td><span class="cz cz-${esc(c)}">${esc(c)}</span></td>
+      <td><span class="badge m-${esc(m)}">${esc(x.mode)}</span></td>
+      <td><div class="clamp">${esc(x.symptom)}</div></td>
+      <td class="c-why"><div class="clamp">${esc(x.resolution)}</div></td>
+    </tr>`; }).join("");
+}
+["i-cause","i-mode","i-q"].forEach(id => document.getElementById(id).addEventListener("input", renderIncidents));
+
+/* ---- tabs ---- */
+document.querySelectorAll("#tabs button").forEach(b =>
+  b.addEventListener("click", () => {
+    const t = b.dataset.tab;
+    document.querySelectorAll("#tabs button").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");
+    document.getElementById("t-shipped").classList.toggle("hidden", t!=="shipped");
+    document.getElementById("t-incidents").classList.toggle("hidden", t!=="incidents");
+  }));
+
+renderShipped();
+renderIncidents();
 </script>
 </body>
 </html>
