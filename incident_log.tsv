@@ -12,4 +12,3 @@ date	cause	mode	symptom	resolution
 2026-06-01	B	manual	Zombie duplicate bun poller fought for token (409, deaf)	kill -9 sweep; hardened restart_daisy.sh + watchdog dup-detect
 2026-06-06	C	manual	Ghost-text swallowed Telegram inbound; appeared unresponsive	Typed real msg via tmux + submit; found root cause = server-side tengu_prompt_suggestion experiment, --prompt-suggestions flag does not cover interactive TUI
 2026-06-06	D	manual	Plugin outbound silently dropped ~9:25am; she received+replied in-pane but nothing reached Telegram for ~3.5h; watchdog blind (auth ok/poller alive/pending 0)	front-door restart_daisy.sh restored channel; verified via plugin send msg_id 2083
-2026-06-08	E	manual	TEMP self-test row (auto-sync verification)	delete me
