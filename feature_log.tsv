@@ -28,3 +28,4 @@ date	name	surface	status	what	why	location	approx
 2026-05-25	London trip page deploy	infra	Live	Interactive HTML itinerary (History/Food toggle) for the Sep 2026 parents trip.	Shareable, phone-friendly trip plan.	danielwhwang.github.io/ldn-894f6b	0
 2026-05-27	Mini Day-1 checklist page deploy	infra	Live	Static setup checklist for the Mac Mini migration.	Track the migration steps from the phone.	danielwhwang.github.io/mini-1d7ab3	0
 2026-06-04	X5 touch-up paint page deploy	infra	Live	Noindex link-only touch-up paint checklist.	Quick reference doc deploy.	danielwhwang.github.io/x5-2e8030	0
+2026-06-08	/daisy-doctor skill	skill	Live	On-demand READ-ONLY outage diagnosis; mirrors watchdog precedence (E/A/B/D), reports root cause + cause code + exact fix; never auto-heals.	Instrument panel to the watchdog's autopilot; stop re-deriving Daisy's topology on every outage.	project_daisy_doctor_skill	0
