@@ -43,6 +43,12 @@ feat_json = json.dumps(features)
 inc_json = json.dumps(incidents)
 default_count = sum(1 for r in features if r["surface"] != "infra")
 
+# build timestamp (manual format — avoid platform %-m strftime differences)
+_now = datetime.datetime.now()
+_h12 = _now.hour % 12 or 12
+_ampm = "AM" if _now.hour < 12 else "PM"
+built_stamp = f"{_now.month}/{_now.day}/{str(_now.year)[2:]} {_h12}:{_now.minute:02d} {_ampm}"
+
 TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,6 +69,11 @@ TEMPLATE = """<!DOCTYPE html>
   .tabs button { background:transparent; color:var(--muted); border:0; cursor:pointer;
     padding:7px 16px; border-radius:8px; font-size:13px; font-weight:600; }
   .tabs button.on { background:var(--accent); color:#0b1020; }
+  .hdr { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+  .refresh { background:var(--accent); color:#0b1020; border:0; border-radius:9px;
+    padding:8px 14px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; }
+  .refresh:active { opacity:.75; }
+  .built { display:block; margin-top:3px; opacity:.75; font-size:11.5px; }
   .controls { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:8px; }
   .seg { display:inline-flex; background:var(--card); border:1px solid var(--line);
     border-radius:9px; padding:3px; gap:2px; }
@@ -117,8 +128,13 @@ TEMPLATE = """<!DOCTYPE html>
 </head>
 <body>
 <div class="wrap">
-  <h1>Daisy — Shipped &amp; Incidents</h1>
-  <p class="sub">Drag a column's right edge to resize — widths save on this device. Incidents update automatically when a defect is logged.</p>
+  <div class="hdr">
+    <div>
+      <h1>Daisy — Shipped &amp; Incidents</h1>
+      <p class="sub">Drag a column's right edge to resize — widths save on this device. Incidents update automatically when a defect is logged.<span class="built">Page built __BUILT__ · tap Refresh to pull the latest published version.</span></p>
+    </div>
+    <button class="refresh" id="refresh" title="Reload the latest published page">↻ Refresh</button>
+  </div>
 
   <div class="tabs" id="tabs">
     <button data-tab="shipped" class="on">Shipped</button>
@@ -292,6 +308,11 @@ document.querySelectorAll("#tabs button").forEach(b =>
     document.getElementById("t-incidents").classList.toggle("hidden", t!=="incidents");
   }));
 
+/* ---- refresh: cache-busted reload so a fresh publish shows immediately ---- */
+document.getElementById("refresh").addEventListener("click", () => {
+  location.replace(location.pathname + "?t=" + Date.now());
+});
+
 renderShipped();
 renderIncidents();
 </script>
@@ -299,7 +320,8 @@ renderIncidents();
 </html>
 """
 
-html = TEMPLATE.replace("__FEAT__", feat_json).replace("__INC__", inc_json)
+html = (TEMPLATE.replace("__FEAT__", feat_json).replace("__INC__", inc_json)
+        .replace("__BUILT__", built_stamp))
 with open(out, "w") as f:
     f.write(html)
 print(f"rendered {len(features)} features (default {default_count}) + {len(incidents)} incidents -> {out}")
