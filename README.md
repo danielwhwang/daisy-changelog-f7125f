@@ -28,5 +28,19 @@ auto-appends). A LaunchAgent republishes this page **whenever that file changes*
 So: log/fix a defect → the row hits `incident_log.tsv` → page updates within seconds.
 No action needed.
 
+## The Drawing Board — ideas log (`/board/`)
+Light "paper" card page for ideas that haven't been built yet — the forward-looking
+sister to the shipped log. Lives at `board/index.html`.
+
+1. Edit `ideas.tsv` (tab-separated):
+   `date  name  domain  effort  status  pitch  notes  link  approx`
+   - domain: `daisy` · `skill` · `cos` · `infra` · `work` · `life`
+   - effort: `S` · `M` · `L`
+   - status: `sketched` (thought through, ready to build) · `napkin` (raw idea) ·
+     `shelved` (decided not now) · `built` (shipped — set `link` to `../` and add a
+     row to `feature_log.tsv`)
+   - default view shows sketched + napkin only; "Everything" reveals shelved + built
+2. `python3 build_board.py` → `git commit -am "…" && git push`
+
 > Note: the Mini pushes commits too. On the MacBook, `git pull` before editing
 > `feature_log.tsv` to avoid a non-fast-forward.
