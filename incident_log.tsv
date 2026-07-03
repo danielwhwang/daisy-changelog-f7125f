@@ -33,4 +33,3 @@ date	cause	mode	symptom	resolution
 2026-06-25	E	auto	session died/missing	auto-restarted via front-door
 2026-07-03	E	auto	session died/missing	auto-restarted via front-door
 2026-07-03	E	auto	session died/missing	auto-restarted via front-door
-2026-07-03	D	auto	runtime delivery probe failed twice (outbound not delivering)	notify-only soak -- alerted Daniel, no auto-action
