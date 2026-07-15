@@ -33,3 +33,4 @@ date	cause	mode	symptom	resolution
 2026-06-25	E	auto	session died/missing	auto-restarted via front-door
 2026-07-03	E	auto	session died/missing	auto-restarted via front-door
 2026-07-03	E	auto	session died/missing	auto-restarted via front-door
+2026-07-15	B	auto	telegram poller stopped	auto-restarted
