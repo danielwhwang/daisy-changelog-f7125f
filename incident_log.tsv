@@ -47,3 +47,4 @@ date	cause	mode	symptom	resolution
 2026-07-24	B	auto	telegram poller stopped (handed off from failed scheduled restart)	auto-restarted quietly by watchdog
 2026-07-25	B	auto	telegram poller stopped (handed off from failed scheduled restart)	auto-restarted quietly by watchdog
 2026-07-26	B	auto	telegram poller stopped (handed off from failed scheduled restart)	auto-restarted quietly by watchdog
+2026-07-27	B	auto	telegram poller stopped (handed off from failed scheduled restart)	auto-restarted quietly by watchdog
