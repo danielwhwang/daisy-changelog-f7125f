@@ -53,3 +53,4 @@ date	cause	mode	symptom	resolution
 2026-07-29	B	auto	telegram poller stopped (handed off from failed scheduled restart)	auto-restarted quietly by watchdog
 2026-07-30	B	auto	telegram poller stopped (handed off from failed scheduled restart)	auto-restarted quietly by watchdog
 2026-07-30	A	auto	login token expired (Mode 2)	drove /login + alerted Daniel for re-auth
+2026-08-13	D	auto	runtime delivery probe failed twice (outbound not delivering)	restart attempted once (loop-safe)
