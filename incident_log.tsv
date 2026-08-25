@@ -57,3 +57,4 @@ date	cause	mode	symptom	resolution
 2026-08-15	B	auto	telegram poller stopped	auto-restarted
 2026-08-19	D	auto	runtime delivery probe failed twice (outbound not delivering)	restart attempted once (loop-safe)
 2026-08-24	D	auto	runtime delivery probe failed twice (outbound not delivering)	restart attempted once (loop-safe)
+2026-08-25	E	auto	session died/missing	auto-restarted via front-door
