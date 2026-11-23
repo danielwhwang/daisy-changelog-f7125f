@@ -63,3 +63,4 @@ date	cause	mode	symptom	resolution
 2026-10-25	E	auto	session died/missing	auto-restarted via front-door
 2026-10-26	A	auto	login token expired (Mode 2)	drove /login + alerted Daniel for re-auth
 2026-11-18	D	auto	runtime delivery probe failed twice (outbound not delivering)	restart attempted once (loop-safe)
+2026-11-23	A	auto	login token expired (Mode 2)	drove /login + alerted Daniel for re-auth
